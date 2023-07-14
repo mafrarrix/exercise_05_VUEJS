@@ -6,14 +6,14 @@ const app = Vue.createApp({
     },
     computed: {
         taskCount() {
-            return this.tasks.lenght;
+            return this.tasks.length;
         }
     },
-    method: {
+    methods: {
         addNewTask(newTask)  {
             this.tasks.push(newTask);
         },
-        removeTask() {
+        removeTask(task) {
                 this.task.splice(this.tasks.indexOf(task), 1);
         }     
     }
