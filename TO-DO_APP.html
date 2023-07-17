@@ -10,8 +10,9 @@
 <body>
 
     <div id="app">
-        <to-do :tasks="tasks" :remaining="taskCount"> </to-do>
+        <to-do :tasks="tasks" :remaining="taskCount" @add-task="addNewTask"> </to-do>
     </div>
+    
 
     <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
     <script src="main.js"></script>
