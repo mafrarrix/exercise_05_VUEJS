@@ -4,25 +4,25 @@ const app = Vue.createApp({
             tasks: []
         }
     },
-    computed: {
+    computed: { // Qui sostanzialmente tengo traccia della quantità dei task aggiunti in real-time
         taskCount() {
             return this.tasks.length;
         }
     },
-    methods: {
+    methods: { //aggiungo e cancello i task
         addNewTask(newTask)  {
             this.tasks.push(newTask);
         },
         removeTask(task) {
-                this.task.splice(this.tasks.indexOf(task), 1);
+                this.tasks.splice(task.indexOf(task), 1);
         }     
     }
 });
 
 app.component(
     "to-do", {
-        emit: ["add-task"],
-        props: {
+        emits: ["add-task", "remove-task"], // Qesto mi serve solo per avere una visione di insieme
+        props: { // Qui dichiaro le propietà del componente "to-do" che verrà integrato nella pagina html
             tasks: {
                 type: Array,
                 required: true
@@ -32,7 +32,7 @@ app.component(
                 required: true
             }
     },
-    data(){
+    data(){ // Qui definisco propietà che vengono passate alla pagina
         return{
             error: null,
             newTask: null
@@ -57,13 +57,11 @@ app.component(
 
     },
 
+    // Questo html verrà renderizzato all'interno del div dove verrà montato il componente
     template: `
     <div class="container my-2">
         <p><strong>Tasks Rimaneti: {{ remaining }}</strong></p>
-        <input v-model="newTask" 
-        calss="form-control" type="text" 
-        placeholder="to-do insert" 
-        @keyup.enter="submitTask">
+        <input v-model="newTask"  calss="form-control" type="text"  placeholder="to-do insert"  @keyup.enter="submitTask">
         <br>
         <div v-for="task in tasks">
             <div class="alert alert-warning alert-dismissible fade show" role="alert">
@@ -71,6 +69,8 @@ app.component(
                 <button @click="removeTask(task)" type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>  
         </div>
+        <p v-if="error">{{ error }}</p>
+        <p v-if="remaining === 0"></p>
     </div>
     `
 });
